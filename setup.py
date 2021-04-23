@@ -3,8 +3,13 @@
 import os
 import sys
 
-from pip.download import PipSession
-from pip.req import parse_requirements as requirements
+try: # for pip >= 10
+    from pip._internal.req import parse_requirements as requirements
+    from pip._internal.network.session import PipSession
+except ImportError: # for pip <= 9.0.3
+    from pip.req import parse_requirements as requirements
+    from pip.download import PipSession
+
 from setuptools import setup
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
